@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_jwt.views import obtain_jwt_token
+
+from .views import ChatterList, ChatRoomList, ChatList
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('chatters', ChatterList.as_view()),
+    path('chatrooms', ChatRoomList.as_view()),
+    path('chatrooms/<int:chatroom_id>/chats', ChatList.as_view()),
+    path('auth', obtain_jwt_token)
 ]
