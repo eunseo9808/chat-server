@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import UserSerializer, ChatRoomSerializer, ChatSerializer
 from rest_framework import status
@@ -61,3 +60,13 @@ class ChatList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChatSearch(APIView):
+    def post(self, request, chatroom_id):
+        query = request.data['query']
+
+        query_chats = Chat.objects.filter(chatroom_id=chatroom_id, content__contains=query).order_by('-create_time')
+        serializers = ChatSerializer(query_chats, many=True)
+
+        return Response(serializers.data, status=status.HTTP_200_OK)

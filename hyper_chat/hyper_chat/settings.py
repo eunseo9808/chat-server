@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_crontab',
     'api',
+]
+
+CRONJOBS = [
+    ('0 0 * * *', 'api.crontab_jobs.delete_old_chat'),
 ]
 
 MIDDLEWARE = [
