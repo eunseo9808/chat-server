@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 from .models import Chatter, ChatRoom, Chat
+from rest_framework import authentication, permissions
 
 
 # Create your views here.
@@ -26,6 +27,8 @@ class ChatterList(APIView):
 
 
 class ChatRoomList(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get(self, request):
         my_chat_rooms = ChatRoom.objects.filter(Q(owner=request.user) | Q(opponent=request.user)).order_by('-last_chat_time')
         serializers = ChatRoomSerializer(my_chat_rooms, many=True)
@@ -46,6 +49,8 @@ class ChatRoomList(APIView):
 
 
 class ChatList(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get(self, request, chatroom_id):
         my_chats = Chat.objects.filter(chatroom_id=chatroom_id).order_by('create_time')
         if my_chats.count() <= 0:
@@ -63,6 +68,8 @@ class ChatList(APIView):
 
 
 class ChatSearch(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
     def post(self, request, chatroom_id):
         query = request.data['query']
 

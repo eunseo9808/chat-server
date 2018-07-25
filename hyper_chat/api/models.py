@@ -2,24 +2,27 @@ from django.db import models
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import (BaseUserManager,AbstractBaseUser)
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.conf import settings
 
 
 class AccountManager(BaseUserManager):
-    def create_user(self,username,password=None):
-        user=self.model(
+    def create_user(self, username, password=None):
+        user = self.model(
             username=username
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username,password=None):
-        user=self.create_user(
+    def create_superuser(self, username, password=None):
+        user = self.create_user(
             username=username,
             password=password
         )
-        user.is_admin=True
-        user.is_superuser=True
+        user.is_admin = True
+        user.is_superuser = True
         user.is_active = True
         user.save(using=self._db)
 
@@ -74,3 +77,6 @@ class Chat(models.Model):
     receiver = models.ForeignKey(Chatter, related_name='receiver_chats', on_delete=models.CASCADE)
     content = models.TextField(null=False)
     create_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.sender.__str__() + " -> "+self.receiver.__str__()+": " + self.content

@@ -17,11 +17,18 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework_jwt.views import obtain_jwt_token
 from .views import ChatterList, ChatRoomList, ChatList, ChatSearch
+from rest_framework import routers
+from django.conf.urls import include
+
+
+router = routers.DefaultRouter()
+
 
 urlpatterns = [
     path('chatters', ChatterList.as_view()),
     path('chatrooms', ChatRoomList.as_view()),
     path('chatrooms/<int:chatroom_id>/chats', ChatList.as_view()),
     path('chatrooms/<int:chatroom_id>/chats/search', ChatSearch.as_view()),
-    path('auth', obtain_jwt_token)
+    path('auth', obtain_jwt_token),
+    path('', include(router.urls))
 ]
