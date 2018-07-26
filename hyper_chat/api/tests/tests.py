@@ -5,6 +5,7 @@ from rest_framework.test import APITestCase
 
 
 class AuthedTestCase(APITestCase):
+
     def setUp(self):
         user = Chatter.objects.create(username='test1234', nickname='test1234')
         user.set_password('test1234')

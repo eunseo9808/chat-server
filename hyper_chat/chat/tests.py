@@ -1,3 +1,7 @@
 from django.test import TestCase
+from channels.testing import ApplicationCommunicator
 
-# Create your tests here.
+
+class TestLiveChat(TestCase):
+    def test_chat(self):
+        pass

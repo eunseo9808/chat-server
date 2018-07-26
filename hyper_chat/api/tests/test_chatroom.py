@@ -3,6 +3,7 @@ from ..models import ChatRoom
 
 
 class TestChatRoom(AuthedTestCase):
+
     def setUp(self):
         super(TestChatRoom, self).setUp()
 

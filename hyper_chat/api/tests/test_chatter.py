@@ -2,6 +2,7 @@ from .tests import AuthedTestCase
 
 
 class TestChatter(AuthedTestCase):
+
     def test_01_post(self):
         post_request = {
             'username': "test12345",

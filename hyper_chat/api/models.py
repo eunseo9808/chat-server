@@ -8,6 +8,7 @@ from django.conf import settings
 
 
 class AccountManager(BaseUserManager):
+
     def create_user(self, username, password=None):
         user = self.model(
             username=username
