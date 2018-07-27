@@ -120,6 +120,9 @@ ASGI_APPLICATION = 'hyper_chat.routing.application'
 REDIS_HOST_ADDRESS = '127.0.0.1'
 REDIS_HOST_PORT = 6379
 
+BROKER_URL = 'redis://' + REDIS_HOST_ADDRESS + ":" + str(REDIS_HOST_PORT) + "/0"
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST_ADDRESS + ":"+str(REDIS_HOST_PORT) + "/0"
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
