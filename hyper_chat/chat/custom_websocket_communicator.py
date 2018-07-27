@@ -2,7 +2,7 @@ from channels.testing import WebsocketCommunicator
 
 
 class CustomWebsocketCommunicator(WebsocketCommunicator):
-    def __init__(self, application, path, chatroom_id, headers=None, subprotocols=None):
+    def __init__(self, application, path, chatroom_id, headers=None, subprotocols=['test']):
         super().__init__(application, path, headers, subprotocols)
         self.scope['url_route'] = {
             'kwargs': {

@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import (BaseUserManager,AbstractBaseUser)
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.conf import settings
 
 
 class AccountManager(BaseUserManager):
@@ -33,6 +30,7 @@ class AccountManager(BaseUserManager):
 class Chatter(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True)
     nickname = models.CharField(max_length=100, unique=True)
+    fcm_reg_id = models.CharField(max_length=200, null=True)
 
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

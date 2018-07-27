@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'chat',
 ]
 
+FCM_APIKEY = "AAAAGn5baUs:APA91bHHT4lcfCM39IibDdRqJSJnhpC9WU5ujkMfE1MAqMtzUg4nNui0svdLWah97MmdJS2NKlMq6k4R4roZteQ8Cy9" \
+             "yXGjZS5m7POkN9-NyPO6yvXsF5-GfT-912Nk6H8BLNg6s42z-R8-CudVB4z9r9ulR8uQk2Q"
+
 CRONJOBS = [
     ('0 0 * * *', 'api.crontab_jobs.delete_old_chat'),
 ]
@@ -113,11 +116,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hyper_chat.wsgi.application'
 ASGI_APPLICATION = 'hyper_chat.routing.application'
 
+
+REDIS_HOST_ADDRESS = '127.0.0.1'
+REDIS_HOST_PORT = 6379
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [(REDIS_HOST_ADDRESS, REDIS_HOST_PORT)],
         },
     },
 }

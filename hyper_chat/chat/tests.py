@@ -9,6 +9,7 @@ import json
 
 
 class TestLiveChat(TestCase):
+
     def test_chat(self):
         user = Chatter.objects.create(username='test1234', nickname='test1234')
         user.set_password('test1234')
@@ -25,31 +26,20 @@ class TestLiveChat(TestCase):
         chatroom.save()
         self.chatroom_id = chatroom.id
 
-        @pytest.mark.asyncio
-        async def wrapper():
-            communicator = CustomWebsocketCommunicator(ChatConsumer, '/ws/chatrooms/1/', self.chatroom_id)
+        async def live_chat():
+            communicator = CustomWebsocketCommunicator(ChatConsumer,
+                                                       '/ws/chatrooms/'+str(self.chatroom_id)+'/?jwt='+self.token,
+                                                       self.chatroom_id)
             connected, subprotocol = await communicator.connect()
+            self.assertTrue(connected)
 
             json_request = {
-                "message": "Hello HyperConnect!",
-                "token": self.token
+                "message": "Hello HyperConnect!"
             }
 
             string_request = json.dumps(json_request)
             await communicator.send_to(text_data=string_request)
             await communicator.disconnect()
-            self.assertTrue(True)
 
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(wrapper())
-
-
-# class TestLiveChat(ChannelsLiveServerTestCase):
-#     async def test_chat(self):
-#         communicator = WebsocketCommunicator(ChatConsumer, '/ws/chatrooms/1/')
-#         connected, subprotocol = await communicator.connect()
-#         communicator.connect()
-#
-#         await communicator.send_to(text_data="hello")
-#         communicator.disconnect()
-#         self.assertTrue(True)
+        loop.run_until_complete(live_chat())

@@ -20,5 +20,5 @@ urlpatterns = [
     path('chatrooms/<int:chatroom_id>/chats/search', ChatSearch.as_view()),
     path('chats/<int:chat_id>', ChatDetail.as_view()),
     path('auth', obtain_jwt_token),
-    path('', include(router.urls))
+    path('', include(router.urls)),
 ]

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Chatter, ChatRoom, Chat
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class ChatterSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password')
@@ -24,8 +24,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ChatRoomSerializer(serializers.HyperlinkedModelSerializer):
     owner_id = serializers.IntegerField(write_only=True)
     opponent_id = serializers.IntegerField(write_only=True)
-    owner = UserSerializer(read_only=True)
-    opponent = UserSerializer(read_only=True)
+    owner = ChatterSerializer(read_only=True)
+    opponent = ChatterSerializer(read_only=True)
 
     class Meta:
         model = ChatRoom
