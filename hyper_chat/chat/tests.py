@@ -1,11 +1,13 @@
-from chat.custom_websocket_communicator import CustomWebsocketCommunicator
-from chat.consumers import ChatConsumer
-from django.test import TestCase
-from api.models import Chatter
-from api.models import ChatRoom
 import pytest
 import asyncio
 import json
+
+from django.test import TestCase
+
+from chat.custom_websocket_communicator import CustomWebsocketCommunicator
+from chat.consumers import ChatConsumer
+from api.models import Chatter
+from api.models import ChatRoom
 
 
 class TestLiveChat(TestCase):

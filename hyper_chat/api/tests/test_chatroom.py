@@ -36,6 +36,7 @@ class TestChatRoom(AuthedTestCase):
         chatroom.save()
 
         get_response = self.client.get('/api/chatrooms')
+
         self.assertEqual(get_response.status_code, 200)
         self.assertIn('owner', get_response.data[0])
         self.assertIn('opponent', get_response.data[0])
@@ -53,5 +54,6 @@ class TestChatRoom(AuthedTestCase):
 
     def test_03_delete_id(self):
         delete_response = self.client.delete('/api/chatrooms/'+str(self.chatroom_id))
+
         self.assertEqual(delete_response.status_code, 200)
         self.assertIn('message', delete_response.data)

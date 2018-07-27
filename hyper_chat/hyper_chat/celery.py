@@ -22,8 +22,3 @@ def send_fcm(reg_id, message, sender_id, receiver_id, chatroom_id):
 
     push_service.notify_single_device(registration_id=reg_id, message_title=message_title,
                                       message_body=message_body, data_message=data_message)
-
-
-@app.task
-def add(x, y):
-    return x + y

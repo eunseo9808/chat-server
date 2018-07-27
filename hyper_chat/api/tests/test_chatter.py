@@ -17,6 +17,7 @@ class TestChatter(AuthedTestCase):
 
     def test_02_get(self):
         get_response = self.client.get('/api/chatters')
+
         self.assertEqual(get_response.status_code, 200)
         self.assertEqual('test1234', get_response.data[0]['username'])
         self.assertEqual('test1234', get_response.data[0]['nickname'])
@@ -40,6 +41,7 @@ class TestChatter(AuthedTestCase):
 
     def test_05_delete_id(self):
         delete_response = self.client.delete('/api/chatters/'+str(self.user_id))
+
         self.assertEqual(delete_response.status_code, 200)
         self.assertIn('message', delete_response.data)
 

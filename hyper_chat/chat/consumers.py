@@ -40,7 +40,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         self.pool = redis.ConnectionPool(host=settings.REDIS_HOST_ADDRESS, port=settings.REDIS_HOST_PORT, db=0)
         self.redis = redis.Redis(connection_pool=self.pool)
-
         room_connected = self.redis.get(self.room_group_name)
         room_connected = self.redis_terrify(room_connected)
 

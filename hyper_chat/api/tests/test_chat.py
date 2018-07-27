@@ -91,5 +91,6 @@ class TestChat(AuthedTestCase):
 
     def test_05_delete_id(self):
         delete_response = self.client.delete('/api/chats/'+str(self.chat_id))
+
         self.assertEqual(delete_response.status_code, 200)
         self.assertIn('message', delete_response.data)
