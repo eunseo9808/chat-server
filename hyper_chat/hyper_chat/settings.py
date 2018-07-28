@@ -132,13 +132,6 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -147,13 +140,15 @@ DATABASES = {
         'PASSWORD': '035bdd4aab1e2df964ae1dd878a52ce677cf754a2d7c32823b50167f93a2b3f1',
         'HOST': 'ec2-54-83-22-244.compute-1.amazonaws.com',
         'PORT': '5432',
-	'TEST': {
-		'ENGINE': 'django.db.backends.sqlite3',
-	        'NAME': os.path.join(BASE_DIR, 'db.test.sqlite3'),
-	},
-    }
-    
+    }    
 }
+
+import sys
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.test.sqlite3')
+    }
 
 AUTH_USER_MODEL = 'api.Chatter'
 
