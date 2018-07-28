@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 class AuthedTestCase(APITestCase):
 
     def setUp(self):
-        user = Chatter.objects.create(username='test1234', nickname='test1234')
+        user = Chatter.objects.create(username='test1234', nickname='test1234', fcm_reg_id='test')
         user.set_password('test1234')
         user.save()
 

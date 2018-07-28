@@ -14,7 +14,7 @@ class ChatterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Chatter
-        fields = ('id', 'username', 'password', 'nickname', )
+        fields = ('id', 'username', 'password', 'nickname', 'fcm_reg_id')
         extra_kwargs = {
             'password': {'write_only': True},
             'id': {'read_only': True},
