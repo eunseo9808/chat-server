@@ -25,7 +25,7 @@ SECRET_KEY = 'm87%fqd#^e=mv@s9_71j2_t1f+jr+f(61#wcgtiyl-tnu-sldu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -116,18 +116,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hyper_chat.wsgi.application'
 ASGI_APPLICATION = 'hyper_chat.routing.application'
 
-
-REDIS_HOST_ADDRESS = '127.0.0.1'
-REDIS_HOST_PORT = 6379
-
-BROKER_URL = 'redis://' + REDIS_HOST_ADDRESS + ":" + str(REDIS_HOST_PORT) + "/0"
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST_ADDRESS + ":"+str(REDIS_HOST_PORT) + "/0"
+import os
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://h:p8470371da22e9f1a1b586193581242e5912690fa3d9085f3f86025175925faf3@ec2-35-169-18-251.compute-1.amazonaws.com:54979')
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [(REDIS_HOST_ADDRESS, REDIS_HOST_PORT)],
+            "hosts": [REDIS_URL],
         },
     },
 }
@@ -135,11 +131,28 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dbtbcbofhopro2',
+        'USER': 'plrrneucpwyrkx',
+        'PASSWORD': '035bdd4aab1e2df964ae1dd878a52ce677cf754a2d7c32823b50167f93a2b3f1',
+        'HOST': 'ec2-54-83-22-244.compute-1.amazonaws.com',
+        'PORT': '5432',
+	'TEST': {
+		'ENGINE': 'django.db.backends.sqlite3',
+	        'NAME': os.path.join(BASE_DIR, 'db.test.sqlite3'),
+	},
     }
+    
 }
 
 AUTH_USER_MODEL = 'api.Chatter'
@@ -181,3 +194,4 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic')

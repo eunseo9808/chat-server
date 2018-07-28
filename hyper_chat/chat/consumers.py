@@ -1,6 +1,6 @@
 import json
-import redis
 import ast
+import redis
 
 from django.conf import settings
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -10,6 +10,7 @@ from api.models import Chat, ChatRoom
 from api.serializers import ChatterSerializer
 from api.models import Chatter
 from hyper_chat.celery import send_fcm
+from chat.redis_connect import redis_connector
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -32,25 +33,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         self.chatroom_id = self.scope['url_route']['kwargs']['chatroom_id']
         self.room_group_name = 'chat_%s' % self.chatroom_id
-
+	
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
-
-        self.pool = redis.ConnectionPool(host=settings.REDIS_HOST_ADDRESS, port=settings.REDIS_HOST_PORT, db=0)
-        self.redis = redis.Redis(connection_pool=self.pool)
+        self.redis = redis_connector
         room_connected = self.redis.get(self.room_group_name)
         room_connected = self.redis_terrify(room_connected)
-
         if self.scope['user'].id not in room_connected:
             room_connected.append(self.scope['user'].id)
-
         self.redis.set(self.room_group_name, room_connected)
         await self.accept()
 
     async def disconnect(self, close_code):
-        self.redis = redis.Redis(connection_pool=self.pool)
         room_connected = self.redis.get(self.room_group_name)
         room_connected = self.redis_terrify(room_connected)
 
@@ -78,7 +74,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         else:
             now_receiver = chatroom.owner
 
-        self.redis = redis.Redis(connection_pool=self.pool)
         room_connected = self.redis.get(self.room_group_name)
         room_connected = self.redis_terrify(room_connected)
 

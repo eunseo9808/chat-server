@@ -16,11 +16,13 @@ channels-redis==2.2.1
 chardet==3.0.4
 constantly==15.1.0
 daphne==2.2.1
+dj-database-url==0.5.0
 Django==2.0.7
 django-crontab==0.7.1
 django-fcm==0.1.1
 djangorestframework==3.8.2
 djangorestframework-jwt==1.11.0
+gunicorn==19.9.0
 hiredis==0.2.0
 hyperlink==18.0.0
 idna==2.7
@@ -31,6 +33,7 @@ msgpack==0.5.6
 msgpack-python==0.5.6
 pipenv==2018.7.1
 pluggy==0.6.0
+psycopg2==2.7.5
 py==1.5.4
 pyfcm==1.4.5
 PyHamcrest==1.9.0
@@ -49,5 +52,5 @@ urllib3==1.23
 vine==1.1.4
 virtualenv==16.0.0
 virtualenv-clone==0.3.0
+whitenoise==3.3.1
 zope.interface==4.5.0
-psycopg2==2.6.2

@@ -4,7 +4,9 @@ from django.conf import settings
 from pyfcm import FCMNotification
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hyper_chat.settings')
-app = Celery('hyper_chat', backend='redis', broker=settings.BROKER_URL)
+app = Celery('hyper_chat')
+app.conf.update(BROKER_URL=settings.REDIS_URL,
+                CELERY_RESULT_BACKEND=settings.REDIS_URL)
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
