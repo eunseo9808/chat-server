@@ -16,7 +16,6 @@ class TestChatRoom(AuthedTestCase):
         chatroom.delete()
 
         post_request = {
-            'owner_id': self.user_id,
             'opponent_id': self.user_id
         }
 

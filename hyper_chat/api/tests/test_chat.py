@@ -18,7 +18,6 @@ class TestChat(AuthedTestCase):
 
     def test_00_post(self):
         post_request = {
-            'sender_id': self.user_id,
             'receiver_id': self.user_id,
             'content': "Hi, It's Test!!"
         }

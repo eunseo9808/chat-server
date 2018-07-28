@@ -34,7 +34,6 @@ class ChatRoomSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ChatSerializer(serializers.HyperlinkedModelSerializer):
-    sender_id = serializers.IntegerField()
     receiver_id = serializers.IntegerField()
 
     class Meta:
