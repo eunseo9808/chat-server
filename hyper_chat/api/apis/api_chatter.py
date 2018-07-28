@@ -20,22 +20,12 @@ class ChatterList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ChatterDetail(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get(self, request, chatter_id):
-        chatter = Chatter.objects.get(id=chatter_id)
-        serializer = ChatterSerializer(chatter)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def put(self, request, chatter_id):
-        if not request.user.id == chatter_id:
-            return Response({'Error': 'Not Apply User'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    def put(self, request):
+        if request.user.id is None:
+            return Response({'Error': 'Unauthorized Error'}, status=status.HTTP_401_UNAUTHORIZED)
 
         chatter = request.user
-
         check = False
 
         if request.data.get('nickname') is not None:
@@ -52,8 +42,18 @@ class ChatterDetail(APIView):
         serializer = ChatterSerializer(chatter)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request, chatter_id):
-        chatter = Chatter.objects.get(id=chatter_id)
+    def delete(self, request):
+        if request.user.id is None:
+            return Response({'Error': 'Unauthorized Error'}, status=status.HTTP_401_UNAUTHORIZED)
+        chatter = request.user
         chatter.delete()
         return Response({'message': 'Success Delete Chatter'}, status=status.HTTP_200_OK)
 
+
+class ChatterDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, chatter_id):
+        chatter = Chatter.objects.get(id=chatter_id)
+        serializer = ChatterSerializer(chatter)
+        return Response(serializer.data, status=status.HTTP_200_OK)
