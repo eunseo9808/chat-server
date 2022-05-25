@@ -34,7 +34,7 @@ pluggy==0.6.0
 py==1.5.4
 pyfcm==1.4.5
 PyHamcrest==1.9.0
-PyJWT==1.6.4
+PyJWT==2.4.0
 pytest==3.6.3
 pytest-asyncio==0.8.0
 pytest-django==3.3.2
